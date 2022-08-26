@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
+REGISTRY_USER=${REGISTRY_USER}
+REGISTRY_PASSWORD=${REGISTRY_PASSWORD}
 mkdir -p $1
 if [ -p /dev/stdin ]; then
         while IFS= read line; do
-                skopeo sync --src docker --dest dir --scoped ${line} $1 --override-arch arm64 --override-os linux
+                skopeo sync --src docker --src-creds $REGISTRY_USER:$REGISTRY_PASSWORD --dest dir --scoped ${line} $1 --override-arch arm64 --override-os linux
         done
         if [ -d "$1/docker.io/library" ]; then
                 # library repositories should be moved to the "docker.io" directory root
