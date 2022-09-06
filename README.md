@@ -15,6 +15,8 @@ List of profiles:
 - restore
 - sysinfo
 - troubleshoot
+- analytics
+- monitoring
 
 Output artifacts `autorun.zip.enc` and `secret.key.enc` will be zipped in a file named **<profile_name>-<git_commit_id>.zip**, ready to be sent and extracted onto a USB key.
 
@@ -86,6 +88,16 @@ Running this profile will result in the following set of files extracted from th
 
 Profile used to retrieve some system information to facilitate troubleshooting.
 
+## 'analytics' profile
+Profile used to setup Analytics & reporting on the appliances.
+# requirements:
+Required variables:
+- REGISTRY_USER
+- REGISTRY_PASSWORD
+
+github user should have access to `ozone-his` to be able to fetch `ozone-analytics-helm`
+
+run: `./zip_and_encrypt.sh analytics` to get the package
 
 ### Dependencies
 
