@@ -21,7 +21,7 @@ rm -rf $RESOURCES_DIR
 mkdir -p $RESOURCES_DIR
 
 echo "⚙️ Run Helm to substitute custom values..."
-git clone https://github.com/ozone-his/ozone-analytics-helm.git $BUILD_DIR/ozone-analytics
+git clone git@github.com:ozone-his/ozone-analytics-helm.git $BUILD_DIR/ozone-analytics
 dir1=$BASE_DIR
 dir2=$PWD
 helm template -f $BASE_DIR/analytics-values.yml analytics $BUILD_DIR/ozone-analytics --output-dir $RESOURCES_DIR/k8s --namespace analytics
