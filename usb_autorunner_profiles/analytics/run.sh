@@ -14,14 +14,15 @@ mkdir -p /mnt/disks/ssd1/analytics/kafka
 
 # Sync images to registry
 echo "⚙️  Upload container images to the registry at $REGISTRY_IP..."
-cd $SCRIPT_DIR/images/ && skopeo sync --scoped --dest-tls-verify=false --src dir --dest docker ./ $REGISTRY_IP
-
+for dir in $SCRIPT_DIR/images/*/ ; do
+    cd $dir && skopeo sync --scoped --dest-tls-verify=false --src dir --dest docker ./ $REGISTRY_IP
+done
 # Create namespace
 echo "⚙️  Create namespace for analytics"
 $kubectl_bin create namespace $ANALYTICS_NAMESPACE
 
 echo "⚙️  Apply volumes manifests"
-$kubectl_bin apply -f $SCRIPT_DIR/manifests
+$kubectl_bin apply -f $SCRIPT_DIR/manifests -n $ANALYTICS_NAMESPACE 
 
 # Apply K8s Prometheus resources
 echo "⚙️  Apply K8s Analytics manifests..."

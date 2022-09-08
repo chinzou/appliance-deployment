@@ -9,7 +9,7 @@ if [ -p /dev/stdin ]; then
         fi
         echo ${args[@]}
         while IFS= read line; do
-                skopeo sync "${args[@]}"  ${line} $1 
+                skopeo sync "${args[@]}" --scoped ${line} $1
         done
         
 else
