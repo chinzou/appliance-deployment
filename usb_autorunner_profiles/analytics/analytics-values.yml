@@ -10,7 +10,8 @@ jobmanager:
     FLINK_JOB_POSTGRES_PASSWORD: password
     FLINK_JOB_POSTGRES_USER: analytics
 parquetExport:
-  existingClaim: parquet-pvc
+  persistence:
+    existingClaim: parquet-pvc
   env:
     LOCATION_TAG: location1
 taskManager:
@@ -24,4 +25,5 @@ taskManager:
       memory: 5000Mi
 kafka:
   image: zouchine/debezium-kafka:latest
-  existingClaim: kafka-pvc
+  persistence:
+    existingClaim: kafka-pvc
