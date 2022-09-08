@@ -9,11 +9,12 @@ ANALYTICS_NAMESPACE="analytics"
 POD_NAME=$($kubectl_bin get pod -l app=registry -o jsonpath="{.items[0].metadata.name}" -n $APPLIANCE_NAMESPACE)
 $kubectl_bin wait --for=condition=ready --timeout 1800s pod $POD_NAME -n $APPLIANCE_NAMESPACE
 
+mkdir -p /mnt/disks/ssd1/analytics/parquet
+mkdir -p /mnt/disks/ssd1/analytics/kafka
+
 # Sync images to registry
 echo "⚙️  Upload container images to the registry at $REGISTRY_IP..."
-for dir in $SCRIPT_DIR/images/*/ ; do
-    cd $dir && skopeo sync --scoped --dest-tls-verify=false --src dir --dest docker ./ $REGISTRY_IP
-done
+cd $SCRIPT_DIR/images/ && skopeo sync --scoped --dest-tls-verify=false --src dir --dest docker ./ $REGISTRY_IP
 
 # Create namespace
 echo "⚙️  Create namespace for analytics"
