@@ -1,0 +1,33 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: analytics-export
+  namespace: analytics
+spec:
+  backoffLimit: 4
+  template:
+    spec:
+      restartPolicy: Never
+      volumes:
+        - name: export-path
+          hostPath:
+            path: "${parquet_folder}/"
+      containers:
+        - name: analytics-export
+          image: mekomsolutions/ozone-flink-parquet-export:latest
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: export-path
+              mountPath: /parquet
+          env:
+            - name: JDBC_URL
+              value: "jdbc:postgresql://postgres.default:5432/analytics"
+            - name: JDBC_USERNAME
+              value: "analytics"
+            - name: JDBC_PASSWORD
+              value: "password"
+            - name: LOCATION_TAG
+              value: "h6"
+      nodeSelector:
+        role: database
